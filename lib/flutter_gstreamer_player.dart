@@ -1,11 +1,11 @@
-
 import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 
 class GstPlayerTextureController {
-  static const MethodChannel _channel = MethodChannel('flutter_gstreamer_player');
+  static const MethodChannel _channel =
+      MethodChannel('flutter_gstreamer_player');
 
   int textureId = 0;
   static int _id = 0;
@@ -24,7 +24,7 @@ class GstPlayerTextureController {
   }
 
   Future<Null> dispose() {
-      return _channel.invokeMethod('dispose', {'textureId': textureId});
+    return _channel.invokeMethod('dispose', {'textureId': textureId});
   }
 
   bool get isInitialized => textureId != null;
@@ -68,22 +68,11 @@ class _GstPlayerState extends State<GstPlayer> {
     var currentPlatform = Theme.of(context).platform;
 
     switch (currentPlatform) {
-      case TargetPlatform.linux:
       case TargetPlatform.android:
         return Container(
           child: _controller.isInitialized
-            ? Texture(textureId: _controller.textureId)
-            : null,
-        );
-        break;
-      case TargetPlatform.iOS:
-        String viewType = _controller.textureId.toString();
-        final Map<String, dynamic> creationParams = <String, dynamic>{};
-        return UiKitView(
-          viewType: viewType,
-          layoutDirection: TextDirection.ltr,
-          creationParams: creationParams,
-          creationParamsCodec: const StandardMessageCodec(),
+              ? Texture(textureId: _controller.textureId)
+              : null,
         );
         break;
       default:
