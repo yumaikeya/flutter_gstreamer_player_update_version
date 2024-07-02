@@ -74,7 +74,6 @@ class _GstPlayerState extends State<GstPlayer> {
               ? Texture(textureId: _controller.textureId)
               : null,
         );
-        break;
       default:
         throw UnsupportedError('Unsupported platform view');
     }
