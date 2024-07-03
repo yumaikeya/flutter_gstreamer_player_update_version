@@ -64,7 +64,7 @@ GstFlowReturn GstPlayer::newSample(GstAppSink *sink, gpointer gSelf) {
     GstBuffer *buffer_ = gst_sample_get_buffer(sample);
     if(buffer_ != NULL) {
       gst_buffer_map(buffer_, &bufferInfo, GST_MAP_READ);
-
+      g_print("%s\n", info.data);
       // Get video width and height
       GstVideoFrame vframe;
       GstVideoInfo video_info;
