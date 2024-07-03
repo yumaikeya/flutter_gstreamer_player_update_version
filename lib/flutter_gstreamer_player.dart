@@ -23,57 +23,32 @@ class GstPlayerTextureController {
     return textureId;
   }
 
-  Future<Null> dispose() {
+  Future<void> dispose() {
     return _channel.invokeMethod('dispose', {'textureId': textureId});
   }
-
-  bool get isInitialized => textureId != null;
 }
 
-class GstPlayer extends StatefulWidget {
-  String pipeline;
+class GstPlayer extends StatelessWidget {
+  final String pipeline;
 
   GstPlayer({Key? key, required this.pipeline}) : super(key: key);
 
-  @override
-  State<GstPlayer> createState() => _GstPlayerState();
-}
-
-class _GstPlayerState extends State<GstPlayer> {
   final _controller = GstPlayerTextureController();
 
-  @override
-  void initState() {
-    initializeController();
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(GstPlayer oldWidget) {
-    if (widget.pipeline != oldWidget.pipeline) {
-      initializeController();
-    }
-    super.didUpdateWidget(oldWidget);
-  }
-
-  Future<Null> initializeController() async {
+  Future<void> initializeController() async {
     await _controller.initialize(
-      widget.pipeline,
+      pipeline,
     );
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     var currentPlatform = Theme.of(context).platform;
+    initializeController();
 
     switch (currentPlatform) {
       case TargetPlatform.android:
-        return Container(
-          child: _controller.isInitialized
-              ? Texture(textureId: _controller.textureId)
-              : null,
-        );
+        return Texture(textureId: _controller.textureId);
       default:
         throw UnsupportedError('Unsupported platform view');
     }
