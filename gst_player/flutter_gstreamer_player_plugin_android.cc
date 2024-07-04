@@ -48,7 +48,7 @@ handle_player_register_texture(JNIEnv * env, jobject thiz, jstring pipeline, jin
 
           uint32_t pixelSize = size / (width * height);
           for (int h = 0; h < height; h++) {
-            memcpy((void*)((long)nativeBuffer.bits + h * nativeBuffer.stride * pixelSize),
+            memcpy((void*)((long)nativeBuffer.bits/2 + h * nativeBuffer.stride * pixelSize),
                 frame + h*stride,
                 width * pixelSize);
           }
